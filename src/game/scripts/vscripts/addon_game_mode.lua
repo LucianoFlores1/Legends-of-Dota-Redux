@@ -67,46 +67,25 @@ function Precache(context)
         PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_" .. hero_name .. ".vsndevts", context)
     end
 
-	-- Precache bots
-	PrecacheUnitByNameSync("npc_dota_hero_axe", context)
-	PrecacheUnitByNameSync("npc_dota_hero_bane", context)
-	PrecacheUnitByNameSync("npc_dota_hero_bloodseeker", context)
-	PrecacheUnitByNameSync("npc_dota_hero_bounty_hunter", context)
-	PrecacheUnitByNameSync("npc_dota_hero_bristleback", context)
-	PrecacheUnitByNameSync("npc_dota_hero_chaos_knight", context)
-	PrecacheUnitByNameSync("npc_dota_hero_crystal_maiden", context)
-	PrecacheUnitByNameSync("npc_dota_hero_dazzle", context)
-	PrecacheUnitByNameSync("npc_dota_hero_death_prophet", context)
-	PrecacheUnitByNameSync("npc_dota_hero_dragon_knight", context)
-	PrecacheUnitByNameSync("npc_dota_hero_drow_ranger", context)
-	PrecacheUnitByNameSync("npc_dota_hero_earthshaker", context)
-	PrecacheUnitByNameSync("npc_dota_hero_jakiro", context)
-	PrecacheUnitByNameSync("npc_dota_hero_juggernaut", context)
-	PrecacheUnitByNameSync("npc_dota_hero_kunkka", context)
-	PrecacheUnitByNameSync("npc_dota_hero_lich", context)
-	PrecacheUnitByNameSync("npc_dota_hero_lina", context)
-	PrecacheUnitByNameSync("npc_dota_hero_lion", context)
-	PrecacheUnitByNameSync("npc_dota_hero_luna", context)
-	PrecacheUnitByNameSync("npc_dota_hero_necrolyte", context)
-	PrecacheUnitByNameSync("npc_dota_hero_nevermore", context)
-	PrecacheUnitByNameSync("npc_dota_hero_omniknight", context)
-	PrecacheUnitByNameSync("npc_dota_hero_oracle", context)
-	PrecacheUnitByNameSync("npc_dota_hero_phantom_assassin", context)
-	PrecacheUnitByNameSync("npc_dota_hero_pudge", context)
-	PrecacheUnitByNameSync("npc_dota_hero_razor", context)
-	PrecacheUnitByNameSync("npc_dota_hero_sand_king", context)
-	PrecacheUnitByNameSync("npc_dota_hero_skeleton_king", context)
-	PrecacheUnitByNameSync("npc_dota_hero_skywrath_mage", context)
-	PrecacheUnitByNameSync("npc_dota_hero_sniper", context)
-	PrecacheUnitByNameSync("npc_dota_hero_sven", context)
-	PrecacheUnitByNameSync("npc_dota_hero_tidehunter", context)
-	PrecacheUnitByNameSync("npc_dota_hero_tiny", context)
-	PrecacheUnitByNameSync("npc_dota_hero_vengefulspirit", context)
-	PrecacheUnitByNameSync("npc_dota_hero_viper", context)
-	PrecacheUnitByNameSync("npc_dota_hero_warlock", context)
-	PrecacheUnitByNameSync("npc_dota_hero_windrunner", context)
-	PrecacheUnitByNameSync("npc_dota_hero_witch_doctor", context)
-	PrecacheUnitByNameSync("npc_dota_hero_zuus", context)
+	-- Precache bots asynchronously to avoid blocking the server thread during initial loading
+	local botList = {
+		"npc_dota_hero_axe", "npc_dota_hero_bane", "npc_dota_hero_bloodseeker",
+		"npc_dota_hero_bounty_hunter", "npc_dota_hero_bristleback", "npc_dota_hero_chaos_knight",
+		"npc_dota_hero_crystal_maiden", "npc_dota_hero_dazzle", "npc_dota_hero_death_prophet",
+		"npc_dota_hero_dragon_knight", "npc_dota_hero_drow_ranger", "npc_dota_hero_earthshaker",
+		"npc_dota_hero_jakiro", "npc_dota_hero_juggernaut", "npc_dota_hero_kunkka",
+		"npc_dota_hero_lich", "npc_dota_hero_lina", "npc_dota_hero_lion",
+		"npc_dota_hero_luna", "npc_dota_hero_necrolyte", "npc_dota_hero_nevermore",
+		"npc_dota_hero_omniknight", "npc_dota_hero_oracle", "npc_dota_hero_phantom_assassin",
+		"npc_dota_hero_pudge", "npc_dota_hero_razor", "npc_dota_hero_sand_king",
+		"npc_dota_hero_skeleton_king", "npc_dota_hero_skywrath_mage", "npc_dota_hero_sniper",
+		"npc_dota_hero_sven", "npc_dota_hero_tidehunter", "npc_dota_hero_tiny",
+		"npc_dota_hero_vengefulspirit", "npc_dota_hero_viper", "npc_dota_hero_warlock",
+		"npc_dota_hero_windrunner", "npc_dota_hero_witch_doctor", "npc_dota_hero_zuus"
+	}
+	for _, botHero in ipairs(botList) do
+		PrecacheUnitByNameAsync(botHero, function() end)
+	end
 
 	precacheObstacles(context)
 end

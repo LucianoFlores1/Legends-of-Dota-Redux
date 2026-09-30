@@ -4,7 +4,7 @@ var PT = {
 	tableListeners: {},
 	nextListener: 0,
 	tables: {},
-	subs: []
+	subs: [],
 };
 //TODO: Check if it fixed reconnect bugs
 var UTPromisedCalls = [];
@@ -14,29 +14,25 @@ $.Msg("[playertables_base.js] Loaded");
 
 var PlayerTables = {};
 
-PlayerTables.GetAllTableValues = function(tableName) {
+PlayerTables.GetAllTableValues = function (tableName) {
 	var table = PT.tables[tableName];
-	if (table)
-		return JSON.parse(JSON.stringify(table));
+	if (table) return JSON.parse(JSON.stringify(table));
 
 	return null;
-PlayerTables.GetTableValue = function(tableName, keyName) {
-	var table = PT.tables[tableName];
-	if (!table)
-		return null;
-
 };
 
+PlayerTables.GetTableValue = function (tableName, keyName) {
+	var table = PT.tables[tableName];
+	if (!table) return null;
 
 	var val = table[keyName];
 
-	if (typeof val === 'object')
-		return JSON.parse(JSON.stringify(val));
+	if (typeof val === "object") return JSON.parse(JSON.stringify(val));
 
 	return val;
 };
 
-PlayerTables.SubscribeNetTableListener = function(tableName, callback) {
+PlayerTables.SubscribeNetTableListener = function (tableName, callback) {
 	var listeners = PT.tableListeners[tableName];
 	if (!listeners) {
 		listeners = {};
@@ -52,7 +48,7 @@ PlayerTables.SubscribeNetTableListener = function(tableName, callback) {
 	return ID;
 };
 
-PlayerTables.UnsubscribeNetTableListener = function(callbackID) {
+PlayerTables.UnsubscribeNetTableListener = function (callbackID) {
 	var tableName = PT.listeners[callbackID];
 	if (tableName) {
 		if (PT.tableListeners[tableName]) {
@@ -92,7 +88,7 @@ function ProcessTable(newTable, oldTable, changes, dels) {
 		var n = newTable[k];
 		var old = oldTable[k];
 
-		if (typeof(n) === typeof(old) && typeof(n) === "object") {
+		if (typeof n === typeof old && typeof n === "object") {
 			if (!isEquivalent(n, old)) {
 				changes[k] = n;
 			}
@@ -121,11 +117,9 @@ function SendPID() {
 	}
 
 	GameEvents.SendCustomGameEventToServer("PlayerTables_Connected", {
-		pid: pid
+		pid: pid,
 	});
 }
-
-
 
 function TableFullUpdate(msg) {
 	//$.Msg('TableFullUpdate -- ', msg);
@@ -133,10 +127,8 @@ function TableFullUpdate(msg) {
 	var newTable = msg.table;
 	var oldTable = PT.tables[msg.name];
 
-	if (!newTable)
-		delete PT.tables[msg.name];
-	else
-		PT.tables[msg.name] = newTable;
+	if (!newTable) delete PT.tables[msg.name];
+	else PT.tables[msg.name] = newTable;
 
 	var listeners = PT.tableListeners[msg.name] || {};
 	var len = Object.keys(listeners).length;
@@ -163,20 +155,20 @@ function TableFullUpdate(msg) {
 	}
 	var tableIndex = Object.keys(PT.tables).length;
 	if (msg.inputlength != null && tableIndex >= msg.inputlength && !connected) {
-		$.Msg('PT connected with input length ' + msg.inputlength + ' and table index ' + tableIndex);
+		$.Msg("PT connected with input length " + msg.inputlength + " and table index " + tableIndex);
 		connected = true;
 		for (var i = 0; i < UTPromisedCalls.length; i++) {
 			UTPromisedCalls[i]();
 		}
-		$.Msg('PT preformed initial update, completed ' + UTPromisedCalls.length + ' functions');
+		$.Msg("PT preformed initial update, completed " + UTPromisedCalls.length + " functions");
 	}
-};
+}
 
 function UpdateTable(msg) {
 	//$.Msg('UpdateTable -- ', msg);
 	//msg.changes = UnprocessTable(msg.changes);
 	if (!PlayerTables.IsConnected()) {
-		UTPromisedCalls.push(function() {
+		UTPromisedCalls.push(function () {
 			UpdateTable(msg);
 		});
 		return;
@@ -193,10 +185,8 @@ function UpdateTable(msg) {
 		var value = msg.changes[k];
 
 		table[k] = value;
-		if (typeof value === 'object')
-			t[k] = JSON.parse(JSON.stringify(value));
-		else
-			t[k] = value;
+		if (typeof value === "object") t[k] = JSON.parse(JSON.stringify(value));
+		else t[k] = value;
 	}
 
 	var listeners = PT.tableListeners[msg.name] || {};
@@ -214,7 +204,7 @@ function UpdateTable(msg) {
 function DeleteTableKeys(msg) {
 	//$.Msg('DeleteTableKeys -- ', msg);
 	if (!PlayerTables.IsConnected()) {
-		UTPromisedCalls.push(function() {
+		UTPromisedCalls.push(function () {
 			DeleteTableKeys(msg);
 		});
 		return;
@@ -245,11 +235,11 @@ function DeleteTableKeys(msg) {
 	}
 }
 
-PlayerTables.IsConnected = function() {
+PlayerTables.IsConnected = function () {
 	return connected;
 };
 
-(function() {
+(function () {
 	GameUI.CustomUIConfig().PlayerTables = PlayerTables;
 
 	SendPID();

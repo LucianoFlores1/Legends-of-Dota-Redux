@@ -19,9 +19,12 @@ const { getAddonName, getDotaPath } = require("./utils");
 
 		const targetPath = path.join(dotaPath, directoryName, "dota_addons", getAddonName());
 		if (fs.existsSync(targetPath)) {
-			const isCorrect = fs.lstatSync(sourcePath).isSymbolicLink() && fs.realpathSync(sourcePath) === targetPath;
-			if (isCorrect) {
-				console.log(`Skipping '${sourcePath}' since it is already linked`);
+			const sourceIsLink =
+				fs.lstatSync(sourcePath).isSymbolicLink() && fs.realpathSync(sourcePath) === targetPath;
+			const targetIsLink =
+				fs.lstatSync(targetPath).isSymbolicLink() && fs.realpathSync(targetPath) === sourcePath;
+			if (sourceIsLink || targetIsLink) {
+				console.log(`Skipping '${sourcePath}' since it is already linked to '${targetPath}'`);
 				continue;
 			} else {
 				throw new Error(`'${targetPath}' is already linked to another directory`);

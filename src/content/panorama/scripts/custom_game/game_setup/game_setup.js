@@ -2129,7 +2129,9 @@ function OnHeroTabShown(tabName) {
 					// Check each part
 					for (var i = 0; i < searchParts.length; ++i) {
 						if (
-							$.Localize("#" + heroName).toLowerCase().indexOf(searchParts[i]) == -1 &&
+							$.Localize("#" + heroName)
+								.toLowerCase()
+								.indexOf(searchParts[i]) == -1 &&
 							heroName.indexOf(searchParts[i]) == -1
 						) {
 							shouldShow = false;
@@ -4642,7 +4644,11 @@ function generateFormattedHeroStatsString(heroName, info) {
 		heroStats += seperator;
 		heroStats += heroStatsLine("heroStats_strength", info.AttributeBaseStrength + " + " + strGain, strColor);
 		heroStats += heroStatsLine("heroStats_agility", info.AttributeBaseAgility + " + " + agiGain, agiColor);
-		heroStats += heroStatsLine("heroStats_intelligence", info.AttributeBaseIntelligence + " + " + intGain, intColor);
+		heroStats += heroStatsLine(
+			"heroStats_intelligence",
+			info.AttributeBaseIntelligence + " + " + intGain,
+			intColor,
+		);
 		heroStats += "<br>";
 
 		heroStats += heroStatsLine("heroStats_attributes_starting", startingAttributes, "F9891A");
@@ -4702,8 +4708,8 @@ function generateFormattedHeroStatsString(heroName, info) {
 		heroStats += heroStatsLine(
 			"heroStats_SpecialBonus" + i,
 			GameUI.SetupDOTATalentNameLabel(L1, specialGroup["1"]) + // $.Localize("#" + specialGroup["1"]) + // "DOTA_Tooltip_ability_" +
-			$.Localize("#" + "heroStats_or") +
-			GameUI.SetupDOTATalentNameLabel(L2, specialGroup["2"]), // $.Localize("#" + specialGroup["2"]), // "DOTA_Tooltip_ability_" +
+				$.Localize("#" + "heroStats_or") +
+				GameUI.SetupDOTATalentNameLabel(L2, specialGroup["2"]), // $.Localize("#" + specialGroup["2"]), // "DOTA_Tooltip_ability_" +
 			"7FABF1",
 			"FFFFFF",
 		);
@@ -4788,6 +4794,25 @@ function undoRestriction() {
 	$("#pickingPhaseSkillTabRoot").enabled = true;
 }
 
+function dismissLoadingScreens() {
+	var parent = $.GetContextPanel().GetParent();
+	while (parent && parent.id != "Hud") parent = parent.GetParent();
+	if (parent) {
+		var panel = parent.FindChildTraverse("PreGame");
+		if (panel) {
+			var loading = panel.FindChildTraverse("LoDCustomLoadingScreen");
+			if (loading) {
+				loading.visible = false;
+				loading.DeleteAsync(0.1);
+			}
+		}
+	}
+	var mainSelection = $("#mainSelectionRoot");
+	if (mainSelection) {
+		mainSelection.visible = false;
+	}
+}
+
 // A phase was changed
 var seenPopupMessages = {};
 var isTabSwitched = false;
@@ -4859,10 +4884,7 @@ function OnPhaseChanged(table_name, key, data) {
 
 			// Message for players selecting skills
 			if (currentPhase == PHASE_SELECTION) {
-				$("#newAbilitiesPanel").SetHasClass(
-					"GoldBonusEnabled",
-					false,
-				);
+				$("#newAbilitiesPanel").SetHasClass("GoldBonusEnabled", false);
 
 				// Enable tabs
 				$("#tabsSelector").visible = true;
@@ -4950,13 +4972,24 @@ function OnPhaseChanged(table_name, key, data) {
 					panel.Children()[child].visible = false;
 				}
 
-				var loading = $.CreatePanel("Panel", panel, "");
+				var loading = $.CreatePanel("Panel", panel, "LoDCustomLoadingScreen");
 				loading.BLoadLayout("file://{resources}/layout/custom_game/custom_loading_screen.xml", false, false);
 				loading.FindChildTraverse("buildLoadingIndicator").visible = true;
 				$.Schedule(1.0, function () {
-					loading.FindChildTraverse("LoDLoadingTip").visible = true;
+					var tip = loading.FindChildTraverse("LoDLoadingTip");
+					if (tip) tip.visible = true;
 				});
-				loading.FindChildTraverse("vignette").visible = false;
+				var vignette = loading.FindChildTraverse("vignette");
+				if (vignette) vignette.visible = false;
+
+				// Safety timeout: ensure loading screen is dismissed even if network packets are delayed
+				$.Schedule(20.0, function () {
+					dismissLoadingScreens();
+				});
+			}
+
+			if (currentPhase == PHASE_ITEM_PICKING || currentPhase == PHASE_INGAME) {
+				dismissLoadingScreens();
 			}
 
 			break;
@@ -5013,10 +5046,10 @@ function OnPhaseChanged(table_name, key, data) {
 			break;
 
 		//case "patrons":
-			//GameUI.CustomUIConfig().patrons = data;
-			//$("#thankyouButton").visible = isPatron();
-			//$("#patreonButton").visible = isPatron() == false;
-			//break;
+		//GameUI.CustomUIConfig().patrons = data;
+		//$("#thankyouButton").visible = isPatron();
+		//$("#patreonButton").visible = isPatron() == false;
+		//break;
 
 		// case 'patreon_features':
 		//     GameUI.CustomUIConfig().patreon_features = data;
@@ -5878,6 +5911,17 @@ function getAbilityGlobalPickPopularity(ability) {
 	// Register a listener for the event which is broadcast whenever a player attempts to pick a team
 	$.RegisterForUnhandledEvent("DOTAGame_PlayerSelectedCustomTeam", OnPlayerSelectedTeam);
 
+	// Dismiss loading screens when game rules advance to pre-game or in-progress
+	GameEvents.Subscribe("game_rules_state_change", function () {
+		var state = Game.GetState();
+		if (
+			state == DOTA_GameState.DOTA_GAMERULES_STATE_PRE_GAME ||
+			state == DOTA_GameState.DOTA_GAMERULES_STATE_GAME_IN_PROGRESS
+		) {
+			dismissLoadingScreens();
+		}
+	});
+
 	// Hook stuff
 	if (!$.GetContextPanel().isIngameBuilder) {
 		hookAndFire("phase_pregame", OnPhaseChanged);
@@ -5996,13 +6040,13 @@ function getAbilityGlobalPickPopularity(ability) {
 		LoadBuilds();
 	});
 
-	GameEvents.Subscribe("lodReceiveBuilds", function(data) {
+	GameEvents.Subscribe("lodReceiveBuilds", function (data) {
 		var builds = Object.values(data);
 
 		var cont = $pickingPhaseRecommendedBuildContainer();
 
-		if(builds && builds.length > 0) {
-			for(var i = 0; i < builds.length; i++) {
+		if (builds && builds.length > 0) {
+			for (var i = 0; i < builds.length; i++) {
 				addRecommendedBuild(cont[0], builds[i]);
 			}
 
@@ -6010,16 +6054,16 @@ function getAbilityGlobalPickPopularity(ability) {
 		}
 
 		$("#buildLoadingIndicator").visible = false;
- 		cont[0].GetParent().visible = true;
+		cont[0].GetParent().visible = true;
 	});
 
-	GameEvents.Subscribe("lodReceiveFavoriteBuilds", function(data) {
+	GameEvents.Subscribe("lodReceiveFavoriteBuilds", function (data) {
 		var con = $pickingPhaseRecommendedBuildContainer()[0];
 		var favs = Object.values(data);
-		$.Each(con.Children(), function(child) {
+		$.Each(con.Children(), function (child) {
 			child.setFavorite(favs.indexOf(child.buildID) !== -1);
 		});
-	})
+	});
 
 	GameEvents.Subscribe("lodConnectAbilityUsageData", function (data) {
 		AbilityUsageData = data;

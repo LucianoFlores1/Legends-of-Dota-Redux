@@ -1,4 +1,5 @@
-const { findSteamAppByName, SteamNotFoundError } = require("find-steam-app");
+const fs = require("fs");
+const path = require("path");
 const packageJson = require("../package.json");
 
 module.exports.getAddonName = () => {
@@ -13,11 +14,25 @@ module.exports.getAddonName = () => {
 };
 
 module.exports.getDotaPath = async () => {
+	const commonPaths = [
+		"C:\\Program Files (x86)\\Steam\\steamapps\\common\\dota 2 beta",
+		"C:\\Program Files\\Steam\\steamapps\\common\\dota 2 beta",
+		"D:\\SteamLibrary\\steamapps\\common\\dota 2 beta",
+		"D:\\Steam\\steamapps\\common\\dota 2 beta",
+		"E:\\SteamLibrary\\steamapps\\common\\dota 2 beta",
+		"F:\\SteamLibrary\\steamapps\\common\\dota 2 beta",
+	];
+
+	for (const p of commonPaths) {
+		if (fs.existsSync(p)) {
+			return p;
+		}
+	}
+
 	try {
+		const { findSteamAppByName, SteamNotFoundError } = require("find-steam-app");
 		return await findSteamAppByName("dota 2 beta");
 	} catch (error) {
-		if (!(error instanceof SteamNotFoundError)) {
-			throw error;
-		}
+		// fallback
 	}
 };

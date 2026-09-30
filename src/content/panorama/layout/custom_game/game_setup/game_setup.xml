@@ -168,50 +168,61 @@
                             <Panel id="optionsPanel">
                                 <Panel id="optionBasic">
                                     
-                                    <!--
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/free_today.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/patreon_small.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/thank_you.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/discord.png"></Image>
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/free_today.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/patreon_small.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/thank_you.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/discord.png" />
 
-									<Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingAntirat.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingBanningBlockTrollCombos.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingAdvancedOPAbilities.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingDoubleCreeps.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingEnableCheatMode.png"></Image>
-									<Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingEnableHeroBuilder.png"></Image>
-									<Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingEnableKamikaze.png"></Image>
-									<Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingEnableRespawn.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingFatOMeter.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingRefresh.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingSwitchTeam.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/options/option0.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/options/option1.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/options/option2.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/options/option3.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/options/option4.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/options/option5.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/options/option6.png"></Image>
-                                    
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorAntiRat.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorConsumeItems.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorLimitPassives.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorAntiBash.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorBanningBanInvis.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorBanningBanInvis2.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorUpgradedUlts.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorUpgradedUltsNoBots.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorConvertableTowers.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorFastStart.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorStrongTowers.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorDoubleTowers.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorUnlimitedBans.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorBalanceMode.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorPlayerBans.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorOPAbilities.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorUlts.png"></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorBoosterDraft.png" /></Image>
-                                    <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorGlobalCast.png" /></Image>
+									<Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingAntirat.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingBanningBlockTrollCombos.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingAdvancedOPAbilities.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodDoubleCreeps.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingEnableCheatMode.png" />
+									<Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingEnableHeroBuilder.png" />
+									<Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingEnableKamikaze.png" />
+									<Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingEnableRespawn.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingFatOMeter.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingRefresh.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/votings/lodVotingSwitchTeam.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/options/option0.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/options/option1.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/options/option2.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/options/option3.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/options/option4.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/options/option5.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/options/option6.png" />
+                                     
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorAntiRat.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorConsumeItems.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorLimitPassives.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorAntiBash.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorBanningBanInvis.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorBanningBanInvis2.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorUpgradedUlts.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorUpgradedUltsNoBots.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorConvertableTowers.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorFastStart.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorStrongTowers.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorDoubleTowers.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorUnlimitedBans.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorBalanceMode.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorPlayerBans.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorOPAbilities.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorBoosterDraft.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorGlobalCast.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorAllVision.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorBotsBuff2.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorBotsBuff3.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatordoubleTalents.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorNoPocketTowers.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorOGBonus.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorOGBonus1.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorOGBonus2.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorOGBonus3.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorPocketTowersConsumable.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorPocketTowersCooldown.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorPocketTowersCooldown1.png" />
+                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorZombie.png" />
 
 
                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorCreepNoPower.png"></Image>
@@ -411,7 +422,6 @@
                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorGoldDropOnDeath.png"></Image>
                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorNoHealthbars.png"></Image>
                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorRandomLaneCreeps.png"></Image>
-                                    -->
 
 
                                     <Panel id="gamemodesPanel">

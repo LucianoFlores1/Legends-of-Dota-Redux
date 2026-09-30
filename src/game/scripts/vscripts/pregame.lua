@@ -121,7 +121,7 @@ function Pregame:init()
     -- Set it to the loading phase
     self:setPhase(constants.PHASE_LOADING)
 
-    -- Setup phase stuff
+    -- Setup phase stuff: LoD manages its own timers and calls FinishCustomGameSetup() when ready
     GameRules:SetCustomGameSetupTimeout(-1)
     GameRules:EnableCustomGameSetupAutoLaunch(false)
     self:sendContributors()
@@ -1639,8 +1639,10 @@ function Pregame:actualSpawnPlayer(forceID)
         -- Done spawning, start the next one
         this.currentlySpawning = false
 
-        -- Continue actually spawning
-        this:actualSpawnPlayer()
+        -- Stagger spawning so the simulation frame and network channel don't get choked
+        Timers:CreateTimer(0.25, function()
+            this:actualSpawnPlayer()
+        end)
     end)
 
      -- Try to spawn this player using safe stuff
@@ -2181,11 +2183,22 @@ function Pregame:onOptionChanged(eventSourceIndex, args)
     local optionName = args.k
     local optionValue = args.v
 
+    if optionValue == true then
+        optionValue = 1
+    elseif optionValue == false then
+        optionValue = 0
+    elseif type(optionValue) == 'string' and tonumber(optionValue) ~= nil then
+        optionValue = tonumber(optionValue)
+    end
+
     if util.patreon_features then
         if util.patreon_features["Options"] then
             if util.patreon_features["Options"][optionName] then
                 local isPatron = false
                 local isDeveloper = false
+                if IsInToolsMode() or util:isSinglePlayerMode() then
+                    isPatron = true
+                end
                 for k,v in pairs(util.patrons) do
                     --print(PlayerResource:GetSteamID(playerID), PlayerResource:GetSteamAccountID(playerID))
                     if v.steamID3 == PlayerResource:GetSteamAccountID(playerID) then
@@ -2211,7 +2224,7 @@ function Pregame:onOptionChanged(eventSourceIndex, args)
                     i = i+1
                 end
                 if optionName ~= var then
-                    if not isPatron and (not IsInToolsMode() and isDeveloper) then
+                    if not isPatron and not IsInToolsMode() and not util:isSinglePlayerMode() and not isDeveloper then
                         -- Tell the user they tried to modify an invalid option
                         network:sendNotification(player, {
                             sort = 'lodDanger',
@@ -2220,9 +2233,6 @@ function Pregame:onOptionChanged(eventSourceIndex, args)
                                 ['optionName'] = optionName
                             }
                         })
-                        -- Timers:CreateTimer(function()
-                        --     self:setOption(optionName, self.optionStore[optionName])
-                        -- end, "lodOptionFailed", 0.1)
                         return
                     end
                 end
@@ -2712,9 +2722,6 @@ function Pregame:initOptionSelector()
 
         -- Common -- Balance Mode
         lodOptionBalanceMode = function(value)
-            -- Ensure gamemode is set to custom
-            if self.optionStore['lodOptionGamemode'] == 1 then return false end
-
             if value == 1 then
                 -- Enable balance mode bans and disable other lists
                 self:setOption('lodOptionBalanceMode', 1, true)
@@ -2724,6 +2731,9 @@ function Pregame:initOptionSelector()
                 return true
             elseif value == 0 then
                 -- Disable balance mode bans and renable default bans
+                if self.optionStore['lodOptionGamemode'] == 1 then
+                    self:setOption('lodOptionGamemode', 2, true)
+                end
                 self:setOption('lodOptionBanningBalanceMode', 0, true)
                 self:setOption('lodOptionAdvancedOPAbilities', 1, true)
                 return true

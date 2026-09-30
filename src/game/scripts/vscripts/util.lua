@@ -172,10 +172,23 @@ function util:getPremiumRank(playerID)
 end
 
 function isPlayerHost(player)
+    if IsInToolsMode() or util:isSinglePlayerMode() then
+        return true
+    end
     if type(player) == 'number' then
         player = PlayerResource:GetPlayer(player)
     end
-    return player.isHost
+    if not player then
+        return false
+    end
+    if player.isHost then
+        return true
+    end
+    if GameRules:PlayerHasCustomGameHostPrivileges(player) then
+        player.isHost = true
+        return true
+    end
+    return false
 end
 
 function setPlayerHost(oldHost, newHost)

@@ -1639,10 +1639,8 @@ function Pregame:actualSpawnPlayer(forceID)
         -- Done spawning, start the next one
         this.currentlySpawning = false
 
-        -- Stagger spawning so the simulation frame and network channel don't get choked
-        Timers:CreateTimer(0.25, function()
-            this:actualSpawnPlayer()
-        end)
+        -- Continue actually spawning
+        this:actualSpawnPlayer()
     end)
 
      -- Try to spawn this player using safe stuff

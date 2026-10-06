@@ -168,6 +168,7 @@
                             <Panel id="optionsPanel">
                                 <Panel id="optionBasic">
                                     
+                                     <!--
                                      <Image class="optionImageCached" src="file://{images}/custom_game/mutators/free_today.png" />
                                      <Image class="optionImageCached" src="file://{images}/custom_game/patreon_small.png" />
                                      <Image class="optionImageCached" src="file://{images}/custom_game/thank_you.png" />
@@ -424,6 +425,7 @@
                                     <Image class="optionImageCached" src="file://{images}/custom_game/mutators/mutator_lodMutatorRandomLaneCreeps.png"></Image>
 
 
+                                    -->
                                     <Panel id="gamemodesPanel">
                                         <Panel class="gamemodesScrollLeft" onactivate="gamemodesScroll('left')">
                                             <Image src="s2r://panorama/images/control_icons/arrow_dropdown_png.vtex" />
